@@ -53,10 +53,9 @@ public class SecurityConfig {
                         .requireCsrfProtectionMatcher(csrfRequestMatcher())
                 )
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/api/users/register").permitAll()
+                        .requestMatchers("/api/users/register","/main", "/createChallenge").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login") // Custom login page URL
                         .permitAll()

@@ -2,11 +2,13 @@ package com.padelmatchmanager.padelmatchmanager.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "\"user\"") // Escape reserved keyword with double quotes
@@ -19,6 +21,9 @@ public class User implements UserDetails {
     private String email;
 
     private Boolean enabled;
+
+    @ManyToMany(mappedBy = "players")
+    private List<Challenge> challenges;
 
 //contructor
 
