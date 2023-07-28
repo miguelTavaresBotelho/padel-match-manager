@@ -1,32 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <title>Padel Match Manager</title>
-    <!-- Your page's title, CSS, and other meta tags -->
+
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
 </head>
 <body>
-<!-- Your main page content -->
-<h1>Welcome to the Main Page</h1>
+<h1 class="welcome-heading">Welcome to the Padel Match Manager</h1>
 
 <!-- "Create Challenge" form -->
-<form action="/createChallenge" method="post" th:object="${newChallenge}">
-    <label for="challengeName">Challenge Name:</label>
-    <input type="text" id="challengeName" name="name" required>
+<h2>Create a challenge:</h2>
+<form th:action="@{/createChallenge}" method="post" th:object="${newChallenge}">
+    <label for="startTime">Start Time:</label>
+    <input type="datetime-local" step="900" id="startTime" name="startTime" required>
+
+    <label for="endTime">End Time:</label>
+    <input type="datetime-local" id="endTime" name="endTime" required>
+
+    <label for="club">Club:</label>
+    <input type="text" id="club" name="club" required>
+
+    <label for="level">Level:</label>
+    <input type="text" id="level" name="level" required>
+
+    <label for="playerSearch"> Search Player:</label>
+    <input type="text" id="playerSearch" name="playerSearch">
+    <ul id="playerSuggestions" style="display: none;"></ul>
+
+    <h3>Selected Players:</h3>
+    <ul id="selectedPlayers"></ul>
+
     <button type="submit">Create Challenge</button>
 </form>
 
 <!-- List of active challenges -->
 <h2>Active Challenges:</h2>
-<ul>
-    <li th:each="challenge : ${activeChallenges}">
-        <a th:href="@{/challengeDetails(id=${challenge.id})}" th:text="${challenge.name}"></a>
-    </li>
-</ul>
-<ul>
-    <!-- Iterate over the list of active challenges and display them -->
-    <li th:each="challenge : ${activeChallenges}">
-        <span th:text="${challenge.name}"></span>
-    </li>
-</ul>
+<div class="challenge-grid">
+    <div th:each="challenge : ${activeChallenges}" class="challenge-container">
+        <p>📍<span th:text="${challenge.club}"></span></p>
+        <p>⏱️<span th:text="${challenge.startTime}"></span> - <span th:text="${challenge.endTime}"></span></p>
+        <p>📈<span th:text="${challenge.level}"></span></p>
+        <ul>
+            <li th:each="player : ${challenge.players}">
+                <p>🎾<span th:text="${player.username}"></span></p>
+            </li>
+            <!-- Add empty slots for players -->
+            <th:block th:each="index : ${#numbers.sequence(1, 4 - challenge.players.size())}">
+                <p>🎾</p>
+            </th:block>
+        </ul>
+        <button class="join-button" th:attr="data-challenge-id=${challenge.id}">Join Challenge</button>
+    </div>
+</div>
+
+
+<script src="/js/main.js"></script>
 </body>
 </html>
+
+

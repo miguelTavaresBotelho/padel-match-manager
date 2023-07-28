@@ -1,0 +1,36 @@
+
+.welcome-heading {
+    font-family: "Arial", sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 40px;
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Remove the bullet from the list items */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create three columns with equal width */
+    gap: 1px; /* Gap between the challenges */
+}
+
+/* CSS for the challenge container */
+.challenge-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    width: 400px;
+}

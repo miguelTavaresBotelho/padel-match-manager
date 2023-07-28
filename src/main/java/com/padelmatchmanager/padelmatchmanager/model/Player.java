@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "\"user\"") // Escape reserved keyword with double quotes
-public class User implements UserDetails {
+@Table
+public class Player implements UserDetails {
 
     @Id
     private Long id;

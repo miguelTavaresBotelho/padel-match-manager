@@ -2,6 +2,7 @@ package com.padelmatchmanager.padelmatchmanager.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -14,11 +15,29 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
+    private static final List<String> PUBLIC_URLS = Arrays.asList(
+            "/templates/login.html",
+            "/templates/error.html",
+            "/error",
+            "/api/users/register",
+            "/main",
+            "/createChallenge",
+            "/joinChallenge/**",
+            "/joinChallenge/1",
+            "/autocomplete/players",
+            "/favicon.ico",
+            "/css/**"
+    );
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -49,18 +68,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf->csrf.disable())
                 .authenticationProvider(authenticationProvider())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/login"))
                 )
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(
-                                new AntPathRequestMatcher("/templates/login.html"),
-                                new AntPathRequestMatcher("/templates/error.html")).permitAll()
-                        .requestMatchers("/api/users/register", "/main", "/createChallenge", "/test").permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
-                        .requestMatchers("/css/**").permitAll()
-                        .requestMatchers("/favicon.ico").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/autocomplete/players").permitAll()
+                        .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin

@@ -2,7 +2,9 @@ package com.padelmatchmanager.padelmatchmanager.service;
 
 import com.padelmatchmanager.padelmatchmanager.model.Challenge;
 import com.padelmatchmanager.padelmatchmanager.model.ChallengeState;
+import com.padelmatchmanager.padelmatchmanager.model.Player;
 import com.padelmatchmanager.padelmatchmanager.repository.ChallengeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,6 @@ import java.util.Optional;
 @Service
 public class ChallengeService {
 
-    // You'll need to inject the ChallengeRepository to interact with the database
     private final ChallengeRepository challengeRepository;
 
     @Autowired
@@ -22,7 +23,6 @@ public class ChallengeService {
     }
 
     public Challenge createChallenge(Challenge challenge) {
-        // Set the initial state of the challenge to "ACTIVE" when creating
         challenge.setCreationDate(LocalDateTime.now());
         challenge.setState(ChallengeState.ACTIVE);
         return challengeRepository.save(challenge);
@@ -35,6 +35,17 @@ public class ChallengeService {
     public List<Challenge> getExpiredChallenges() {
         LocalDateTime currentTime = LocalDateTime.now();
         return challengeRepository.findByStateEqualsAndEndTimeBefore(ChallengeState.ACTIVE, currentTime);
+    }
+
+    public void joinChallenge(Long challengeId, Player currentPlayer) {
+        //TODO check if the player is already in the challenge challenge.getPlayers().contains(currentPlayer)?
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(
+                () -> new EntityNotFoundException("Challenge with ID " + challengeId + " not found.")
+        );
+
+        challenge.getPlayers().add(currentPlayer);
+
+        challengeRepository.save(challenge);
     }
 
     public List<Challenge> getChallengesByLevel(String level) {

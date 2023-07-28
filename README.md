@@ -2,7 +2,7 @@
 
 [Project Description]
 
-Padel Match Manager is a [brief description of the project]. It allows users to launch challenges for padel matches and notify other users who are interested in playing. The app also facilitates making court reservations at the club.
+Padel Match Manager is a [brief description of the project]. It allows players to launch challenges for padel matches and notify other users who are interested in playing. The app also facilitates making court reservations at the club.
 
 ## Table of Contents
 

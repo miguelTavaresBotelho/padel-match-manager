@@ -1,16 +1,16 @@
 package com.padelmatchmanager.padelmatchmanager.security;
 
-import com.padelmatchmanager.padelmatchmanager.model.User;
+import com.padelmatchmanager.padelmatchmanager.model.Player;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+    private final Player player;
 
-    public CustomUserDetails(User user) {
-        this.user = user;
+    public CustomUserDetails(Player player) {
+        this.player = player;
     }
 
     // Implement the UserDetails interface methods here
@@ -23,12 +23,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return player.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return player.getUsername();
     }
 
     @Override
