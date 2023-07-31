@@ -1,18 +1,17 @@
 $(document).ready(function () {
     // Array to store selected players
     const selectedPlayers = [];
-    let data;
+    let data = [];
 
     // Function to fetch player suggestions based on input and update the suggestions list
     function fetchPlayerSuggestions(input) {
         if (input.length >= 3) {
-            $.get('/autocomplete/players', {partialName: input}, function (data) {
+            $.get('/autocomplete/players', { partialName: input }, function (responseData) {
                 $('#playerSuggestions').empty();
 
-                data.forEach(function (player) {
-                    // Store the player object in the data attribute of the list item
-                    const listItem = $('<li>' + players.username + '</li>');
-                    listItem.data('players', players);
+                responseData.forEach(function (player) {
+                    const listItem = $('<li>' + player.username + '</li>');
+                    listItem.data('player', player); // Store the whole player object
                     $('#playerSuggestions').append(listItem);
                 });
 
@@ -30,20 +29,14 @@ $(document).ready(function () {
 
     // Function to select a player from the suggestions and add them to the list of selected players
     $(document).on('click', '#playerSuggestions li', function () {
-        const selectedPlayer = $(this).data('players');
+        const selectedPlayer = $(this).data('player');
 
-        // Check if the maximum number of players (3) is already reached
         if (selectedPlayers.length < 3) {
-            // Add the selected player to the list of selected players
-            selectedPlayer.push(selectedPlayer);
-            // Append the selected player to the "Selected Players" list
+            selectedPlayers.push(selectedPlayer);
             $('#selectedPlayers').append('<li>' + selectedPlayer.username + '</li>');
-            // Clear the player search input
             $('#playerSearch').val('');
-            // Clear the suggestions list
-            $('#playerSuggestions').empty();
+            $('#playerSuggestions').css('display', 'none'); // Hide the suggestions list
 
-            // Update the hidden input field with selected player IDs
             updatePlayerIdsInput();
         }
     });
@@ -51,7 +44,6 @@ $(document).ready(function () {
     // Function to handle player input changes in the playerSearch input field
     $('#playerSearch').on('input', function () {
         const input = $(this).val();
-        // Fetch player suggestions based on the current input
         fetchPlayerSuggestions(input);
     });
 
