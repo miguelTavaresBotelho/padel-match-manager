@@ -1,5 +1,7 @@
 package com.padelmatchmanager.padelmatchmanager.security;
 
+import com.padelmatchmanager.padelmatchmanager.service.PlayerService;
+import com.padelmatchmanager.padelmatchmanager.utils.SecurityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,8 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,19 +25,6 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    private static final List<String> PUBLIC_URLS = Arrays.asList(
-            "/templates/login.html",
-            "/templates/error.html",
-            "/error",
-            "/api/users/register",
-            "/main",
-            "/createChallenge",
-            "/joinChallenge/**",
-            "/joinChallenge/1",
-            "/autocomplete/players",
-            "/favicon.ico",
-            "/css/**"
-    );
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -94,6 +81,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
     }
+
 
 
  /**   private RequestMatcher csrfRequestMatcher() {

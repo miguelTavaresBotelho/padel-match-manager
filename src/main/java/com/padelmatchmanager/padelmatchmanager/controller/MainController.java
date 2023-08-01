@@ -4,7 +4,11 @@ import com.padelmatchmanager.padelmatchmanager.model.Challenge;
 import com.padelmatchmanager.padelmatchmanager.model.Player;
 import com.padelmatchmanager.padelmatchmanager.service.ChallengeService;
 import com.padelmatchmanager.padelmatchmanager.service.PlayerService;
+import com.padelmatchmanager.padelmatchmanager.utils.SecurityUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +24,6 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    @Autowired
     private ChallengeService challengeService;
 
     private final PlayerService playerService;
@@ -34,10 +37,23 @@ public class MainController {
 
     @GetMapping("/main")
     public String showMainPage(Model model) {
+        Player currentPlayer = SecurityUtils.getCurrentPlayer();
+        model.addAttribute("username", currentPlayer != null ? currentPlayer.getUsername() : "Guest");
+
         List<Challenge> activeChallenges = challengeService.getActiveChallenges();
         model.addAttribute("activeChallenges", activeChallenges);
         model.addAttribute("newChallenge", new Challenge());
+
         return "main-page";
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/createChallenge")
@@ -66,20 +82,4 @@ public class MainController {
         return "redirect:/main";
     }
 
-    /**@GetMapping("/challengeDetails")
-    public String showChallengeDetails(@RequestParam("id") Long challengeId, Model model) {
-        Optional<Challenge> challenge = challengeService.getChallengeById(challengeId);
-
-        if (challenge.isPresent()) {
-            // If the challenge is found, add it to the model and display the details page
-            model.addAttribute("challenge", challenge.get());
-            return "challenge-details";
-        } else {
-            // If the challenge is not found, display an error message to the user
-            model.addAttribute("errorMessage", "Challenge not found.");
-            List<Challenge> activeChallenges = challengeService.getActiveChallenges();
-            model.addAttribute("activeChallenges", activeChallenges);
-            return "main-page";
-        }
-    }**/
 }
