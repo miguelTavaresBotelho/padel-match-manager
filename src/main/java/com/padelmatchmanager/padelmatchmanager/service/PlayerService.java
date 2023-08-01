@@ -31,6 +31,10 @@ public class PlayerService {
         playerRepository.save(player);
     }
 
+    public Player getPlayerByUsername(String username) {
+        return playerRepository.findByUsername(username).orElse(null);
+    }
+
     /**public boolean authenticatePlayer(String username, String rawPassword) {
         Player player = playerRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));

@@ -1,7 +1,10 @@
 package com.padelmatchmanager.padelmatchmanager.controller;
 
+import com.padelmatchmanager.padelmatchmanager.model.Challenge;
 import com.padelmatchmanager.padelmatchmanager.model.Player;
+import com.padelmatchmanager.padelmatchmanager.security.CustomUserDetails;
 import com.padelmatchmanager.padelmatchmanager.service.ChallengeService;
+import com.padelmatchmanager.padelmatchmanager.service.PlayerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,17 +16,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ChallengeController {
     private final ChallengeService challengeService;
+    private final PlayerService playerService;
 
-    public ChallengeController(ChallengeService challengeService) {
+    public ChallengeController(ChallengeService challengeService, PlayerService playerService) {
         this.challengeService = challengeService;
+        this.playerService = playerService;
     }
 
     private Player getCurrentPlayer() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
             return null;
         }
-        return (Player) authentication.getPrincipal();
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+
+        Player currentPlayer = playerService.getPlayerByUsername(username);
+        return currentPlayer;
     }
 
     @PostMapping("/joinChallenge/{challengeId}")

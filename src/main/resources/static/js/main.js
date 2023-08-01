@@ -80,10 +80,8 @@ $(document).ready(function () {
 
         // Perform an AJAX request to join the challenge
         $.post(`/joinChallenge/${challengeId}`, function (response) {
-            // Handle the response from the server (e.g., show a success message)
-            alert('You have successfully joined the challenge!');
+            location.reload();
         }).fail(function (error) {
-            // Handle any errors that occur during the AJAX request
             alert('An error occurred while trying to join the challenge. Please try again later.');
         });
     });
