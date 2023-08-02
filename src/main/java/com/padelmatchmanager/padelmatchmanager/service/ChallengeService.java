@@ -33,8 +33,7 @@ public class ChallengeService {
     }
 
     public List<Challenge> getExpiredChallenges() {
-        LocalDateTime currentTime = LocalDateTime.now();
-        return challengeRepository.findByStateEqualsAndEndTimeBefore(ChallengeState.ACTIVE, currentTime);
+        return challengeRepository.findByStateEquals(ChallengeState.EXPIRED);
     }
 
     public void joinChallenge(Long challengeId, Player currentPlayer) {

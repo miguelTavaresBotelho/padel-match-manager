@@ -23,8 +23,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     // Find active challenges (challenges in "ACTIVE" state)
     List<Challenge> findByStateEquals(ChallengeState state);
 
-    // Find expired challenges (challenges in "EXPIRED" state)
-    List<Challenge> findByStateEqualsAndEndTimeBefore(ChallengeState state, LocalDateTime currentTime);
-
 }
 

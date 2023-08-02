@@ -53,7 +53,7 @@ $(document).ready(function () {
         $('#playerIds').val(selectedPlayerIds.join(','));
     }
 
-    // Function to handle form submission
+    // Function to handle form submission of creating a challenge
     $('form').submit(function (event) {
         // Check if the list of selected players is not empty
         if (selectedPlayers.length === 0) {
@@ -69,8 +69,12 @@ $(document).ready(function () {
                 .attr('type', 'hidden')
                 .attr('name', 'playerIds')
                 .val(selectedPlayers.map(player => player.id).join(','));
-
             form.append(playerIdsInput);
+
+            // Get the selected playTime value from the dropdown
+            const selectedPlayTime = $('#playTime').val();
+            const selectedPlayTimeInput = form.find('#selectedPlayTime');
+            selectedPlayTimeInput.val(selectedPlayTime);
         }
     });
 

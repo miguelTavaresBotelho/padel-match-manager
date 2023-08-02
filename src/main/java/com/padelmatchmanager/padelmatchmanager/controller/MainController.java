@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.padelmatchmanager.padelmatchmanager.utils.TimeUtils;
 
 import javax.validation.Valid;
 
+import java.time.Duration;
 import java.util.List;
 
 @Controller
@@ -59,6 +61,7 @@ public class MainController {
     @PostMapping("/createChallenge")
     public String createChallenge(@ModelAttribute("newChallenge") @Valid Challenge newChallenge,
                                   @RequestParam("playerIds") List<Long> playerIds,
+                                  @RequestParam("playTime") String playTime,
                                   BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             // If there are validation errors, redisplay the main page with error messages
@@ -70,6 +73,10 @@ public class MainController {
         try {
             List<Player> players = playerService.getPlayersByIds(playerIds);
             newChallenge.setPlayers(players);
+
+            Duration playTimeDuration = TimeUtils.parsePlayTime(playTime);
+            newChallenge.setPlayTime(playTimeDuration);
+
             challengeService.createChallenge(newChallenge);
         } catch (Exception e) {
             // Handle the exception (e.g., log it) and display an error message to the player

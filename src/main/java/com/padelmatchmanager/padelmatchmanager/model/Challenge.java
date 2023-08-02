@@ -2,6 +2,7 @@ package com.padelmatchmanager.padelmatchmanager.model;
 
 import jakarta.persistence.*;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Challenge {
     private String level;
     private String club;
     private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Duration playTime;
 
     @Enumerated(EnumType.STRING)
     private ChallengeState state;
@@ -29,11 +30,11 @@ public class Challenge {
         // Default constructor required by JPA
     }
 
-    public Challenge(String level, String club, LocalDateTime startTime, LocalDateTime endTime, ChallengeState state, List<Player> players, LocalDateTime creationDate) {
+    public Challenge(String level, String club, LocalDateTime startTime, Duration playTime, ChallengeState state, List<Player> players, LocalDateTime creationDate) {
         this.level = level;
         this.club = club;
         this.startTime = startTime;
-        this.endTime = endTime;
+        this.playTime = playTime;
         this.state = state;
         this.players = players;
         this.creationDate = creationDate;
@@ -71,12 +72,12 @@ public class Challenge {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public Duration getPlayTime() {
+        return playTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setPlayTime(Duration playTime) {
+        this.playTime = playTime;
     }
 
     public ChallengeState getState() {
@@ -103,6 +104,6 @@ public class Challenge {
         this.creationDate = creationDate;
     }
 
-    // Additional methods and logic (if needed)
+
 }
 

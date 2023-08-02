@@ -31,8 +31,13 @@
     <label for="startTime">Start Time:</label>
     <input type="datetime-local" step="900" id="startTime" name="startTime" required>
 
-    <label for="endTime">End Time:</label>
-    <input type="datetime-local" id="endTime" name="endTime" required>
+    <label for="playTime">Time to Play:</label>
+    <select name="playTime" id="playTime">
+        <option value="PT1H">1h</option>
+        <option value="PT1H30M">1h30m</option>
+        <option value="PT2H">2h</option>
+    </select>
+    <input type="hidden" id="selectedPlayTime" name="playTime">
 
     <label for="club">Club:</label>
     <input type="text" id="club" name="club" required>
@@ -55,7 +60,7 @@
 <div class="challenge-grid">
     <div th:each="challenge : ${activeChallenges}" class="challenge-container">
         <p>📍<span th:text="${challenge.club}"></span></p>
-        <p>⏱️<span th:text="${challenge.startTime}"></span> - <span th:text="${challenge.endTime}"></span></p>
+        <p>⏱️<span th:text="${challenge.startTime}"></span> - <span th:text="${challenge.playTime}"></span></p>
         <p>📈<span th:text="${challenge.level}"></span></p>
         <ul>
             <li th:each="player : ${challenge.players}">
