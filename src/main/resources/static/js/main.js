@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // Array to store selected players
     const selectedPlayers = [];
-    let data = [];
+    const selectedPlayerIds = new Set();
 
     // Function to fetch player suggestions based on input and update the suggestions list
     function fetchPlayerSuggestions(input) {
@@ -10,9 +10,11 @@ $(document).ready(function () {
                 $('#playerSuggestions').empty();
 
                 responseData.forEach(function (player) {
-                    const listItem = $('<li>' + player.username + '</li>');
-                    listItem.data('player', player); // Store the whole player object
-                    $('#playerSuggestions').append(listItem);
+                    if (!selectedPlayerIds.has(player.id)) {
+                        const listItem = $('<li>' + player.username + '</li>');
+                        listItem.data('player', player);
+                        $('#playerSuggestions').append(listItem);
+                    }
                 });
 
                 $('#playerSuggestions').css({
@@ -33,6 +35,7 @@ $(document).ready(function () {
 
         if (selectedPlayers.length < 3) {
             selectedPlayers.push(selectedPlayer);
+            selectedPlayerIds.add(selectedPlayer.id);
             $('#selectedPlayers').append('<li>' + selectedPlayer.username + '</li>');
             $('#playerSearch').val('');
             $('#playerSuggestions').css('display', 'none'); // Hide the suggestions list
@@ -83,9 +86,9 @@ $(document).ready(function () {
         const challengeId = $(this).data('challenge-id');
 
         // Perform an AJAX request to join the challenge
-        $.post(`/joinChallenge/${challengeId}`, function (response) {
+        $.post(`/joinChallenge/${challengeId}`, function () {
             location.reload();
-        }).fail(function (error) {
+        }).fail(function () {
             alert('An error occurred while trying to join the challenge. Please try again later.');
         });
     });
