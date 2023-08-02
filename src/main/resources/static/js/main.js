@@ -92,16 +92,4 @@ $(document).ready(function () {
 
 
 
-
-    // Function to format date and time
-    function formatDateTime(dateTimeStr) {
-        const dateTime = new Date(dateTimeStr);
-        const day = dateTime.getDate();
-        const month = dateTime.getMonth() + 1;
-        const hours = dateTime.getHours();
-        const minutes = dateTime.getMinutes();
-
-        return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}h${minutes.toString().padStart(2, '0')}`;
-    }
-
 });

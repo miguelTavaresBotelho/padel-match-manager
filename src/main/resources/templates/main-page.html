@@ -60,7 +60,7 @@
 <div class="challenge-grid">
     <div th:each="challenge : ${activeChallenges}" class="challenge-container">
         <p>📍<span th:text="${challenge.club}"></span></p>
-        <p>⏱️<span th:text="${challenge.startTime}"></span> - <span th:text="${challenge.playTime}"></span></p>
+        <p>⏱️<span th:text="${#temporals.format(challenge.startTime, 'dd/MM HH:mm')}"></span> - <span th:text="${challenge.playTime}"></span></p>
         <p>📈<span th:text="${challenge.level}"></span></p>
         <ul>
             <li th:each="player : ${challenge.players}">
