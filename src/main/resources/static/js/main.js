@@ -63,7 +63,6 @@ $(document).ready(function () {
             event.preventDefault(); // Prevent form submission
             alert('Please select at least one player.');
         } else {
-            // Update the playerIds hidden input before form submission
             updatePlayerIdsInput();
 
             // Attach selected player IDs to the form data before submission

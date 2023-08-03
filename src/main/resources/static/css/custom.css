@@ -1,0 +1,13 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+input[type="text"], select, input[type="datetime-local"] {
+    flex: 1;
+    margin-right: 5px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 2px;
+    background: none;
+}
