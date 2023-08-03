@@ -44,6 +44,9 @@ public class ChallengeService {
 
         challenge.getPlayers().add(currentPlayer);
 
+        if(challenge.getPlayers().size() == 4)
+            challenge.setState(ChallengeState.CLOSED);
+
         challengeRepository.save(challenge);
     }
 

@@ -84,7 +84,10 @@
                 <p>🎾</p>
             </th:block>
         </ul>
-        <button class="join-button" th:attr="data-challenge-id=${challenge.id}">Join Challenge</button>
+        <th:block th:if="${username != 'Guest'}">
+            <button class="join-button" th:unless="${#lists.contains(challenge.players.![username], username)}"
+                    th:attr="data-challenge-id=${challenge.id}">Join Challenge</button>
+        </th:block>
     </div>
 </div>
 
