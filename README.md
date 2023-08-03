@@ -32,7 +32,7 @@ Will do a demo later. For now the portal speaks for it self.
 
 ### Getting Started
 
-1. Clone the repository: git clone https://[github.com/your-username/padel-match-manager.git](https://github.com/miguelTavaresBotelho/padel-match-manager)
+1. Clone the repository: git clone https://[github.com/miguelTavaresBotelho/padel-match-manager](https://github.com/miguelTavaresBotelho/padel-match-manager)
 2. Navigate to the project directory: cd padel-match-manager 
 3. Configure database connection in src/main/resources/application.properties 
 4. Build the project: ./gradlew build 
