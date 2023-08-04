@@ -2,6 +2,7 @@ package com.padelmatchmanager.padelmatchmanager.controller;
 
 import com.padelmatchmanager.padelmatchmanager.model.Player;
 import com.padelmatchmanager.padelmatchmanager.service.ChallengeService;
+import com.padelmatchmanager.padelmatchmanager.service.PlayerService;
 import com.padelmatchmanager.padelmatchmanager.utils.SecurityUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -27,15 +28,18 @@ public class ChallengeControllerTests {
     @MockBean
     private ChallengeService challengeService;
 
+    @MockBean
+    private PlayerService playerService;
+
 
     @Test
     public void testJoinChallenge_Success() throws Exception {
         Player currentPlayer = new Player();
         currentPlayer.setUsername("testPlayer");
 
-
-
+        mockStatic(SecurityUtils.class);
         when(SecurityUtils.getCurrentPlayer()).thenReturn(currentPlayer);
+
         doNothing().when(challengeService).joinChallenge(anyLong(), any(Player.class));
 
         mockMvc.perform(post("/joinChallenge/{challengeId}", 123L))

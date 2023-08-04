@@ -6,10 +6,10 @@ import com.padelmatchmanager.padelmatchmanager.repository.PlayerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -32,8 +32,11 @@ public class PlayerServiceTests {
     @Mock
     private PlayerRepository playerRepository;
 
-    @InjectMocks
-    private PlayerService playerService = new PlayerServiceImpl(passwordEncoder, playerRepository);
+    @MockBean
+    private ChallengeService challengeService;
+
+    @MockBean
+    private PlayerService playerService;
 
     @BeforeEach
     public void setup() {
