@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <link rel="stylesheet" th:href="@{/css/custom.css}"/>
 
 </head>
 <body>
 <h1 class="heading-logo">Padel Match Manager</h1>
 <div class="header">
     <div class="user-menu">
-        <span>Welcome, <span th:text="${username}"></span></span>
+        <span>Welcome <span th:text="${username}"></span></span>
         <div class="dropdown">
             <button class="dropbtn">&#9776;</button>
             <div class="dropdown-content dropup">
@@ -24,39 +25,48 @@
         </div>
     </div>
 </div>
+<br>
+<br>
 
-<!-- "Create Challenge" form -->
-<h2>Create a challenge:</h2>
-<form th:action="@{/createChallenge}" method="post" th:object="${newChallenge}">
-    <label for="startTime">Start Time:</label>
-    <input type="datetime-local" step="900" id="startTime" name="startTime" required>
+<div class="new-challenge-container">
+    <!-- "Create Challenge" form -->
+    <h2>Create a challenge</h2>
+    <form th:action="@{/createChallenge}" method="post" th:object="${newChallenge}">
+        <div class="form-grid">
+            <label for="startTime">Start Time</label>
+            <input type="datetime-local" step="900" id="startTime" name="startTime" required>
 
-    <label for="playTime">Time to Play:</label>
-    <select name="playTime" id="playTime">
-        <option value="PT1H">1h</option>
-        <option value="PT1H30M">1h30m</option>
-        <option value="PT2H">2h</option>
-    </select>
-    <input type="hidden" id="selectedPlayTime" name="playTime">
+            <label for="playTime">Time to Play</label>
+            <select name="playTime" id="playTime">
+                <option value="PT1H">1h</option>
+                <option value="PT1H30M">1h30m</option>
+                <option value="PT2H">2h</option>
+            </select>
+            <input type="hidden" id="selectedPlayTime" name="playTime">
 
-    <label for="club">Club:</label>
-    <input type="text" id="club" name="club" required>
+            <label for="club">Club</label>
+            <input type="text" id="club" name="club" required>
 
-    <label for="level">Level:</label>
-    <input type="text" id="level" name="level" required>
+            <label for="level">Level</label>
+            <input type="text" id="level" name="level" required>
 
-    <label for="playerSearch"> Search Player:</label>
-    <input type="text" id="playerSearch" name="playerSearch">
-    <ul id="playerSuggestions" style="display: none;"></ul>
 
-    <h3>Selected Players:</h3>
-    <ul id="selectedPlayers"></ul>
+            <label>  </label>
+            <ul id="selectedPlayers"></ul>
 
-    <button type="submit">Create Challenge</button>
-</form>
+            <label for="playerSearch">Search Player</label>
+            <input type="text" id="playerSearch" name="playerSearch">
+
+            <ul id="playerSuggestions" style="display: none;"></ul>
+        </div>
+
+        <button type="submit">Create Challenge</button>
+    </form>
+</div>
+
 
 <!-- List of active challenges -->
-<h2>Active Challenges:</h2>
+<h2>Active Challenges</h2>
 <div class="challenge-grid">
     <div th:each="challenge : ${activeChallenges}" class="challenge-container">
         <p>📍<span th:text="${challenge.club}"></span></p>
@@ -74,7 +84,10 @@
                 <p>🎾</p>
             </th:block>
         </ul>
-        <button class="join-button" th:attr="data-challenge-id=${challenge.id}">Join Challenge</button>
+        <th:block th:if="${username != 'Guest'}">
+            <button class="join-button" th:unless="${#lists.contains(challenge.players.![username], username)}"
+                    th:attr="data-challenge-id=${challenge.id}">Join Challenge</button>
+        </th:block>
     </div>
 </div>
 

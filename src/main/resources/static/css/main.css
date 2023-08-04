@@ -22,17 +22,24 @@ ul {
 .challenge-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Create three columns with equal width */
-    gap: 1px; /* Gap between the challenges */
 }
 
-/* CSS for the challenge container */
+.new-challenge-container {
+    width: 30%;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
 .challenge-container {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
     background-color: #f9f9f9;
-    width: 400px;
+    width: 95%;
 }
 
 .user-menu {
@@ -61,7 +68,7 @@ ul {
     min-width: 120px;
     z-index: 1;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    right: 0; /* Align right edge with parent container */
+    right: 0;
 }
 
 .dropdown-content a {
@@ -82,4 +89,22 @@ ul {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 165px auto;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-grid label {
+    width: 120px;
+    margin-right: 5px;
+}
+
+.form-grid input, .form-grid select {
+    flex: 1;
+    margin-right: 5px;
+}
+
 
