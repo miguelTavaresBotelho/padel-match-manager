@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,6 +26,7 @@ public class PlayerServiceImpl implements PlayerService{
         String rawPassword = player.getPassword();
         String encryptedPassword = passwordEncoder.encode(rawPassword);
         player.setPassword(encryptedPassword);
+        player.setCreationDate(LocalDate.now());
         player.setEnabled(Boolean.TRUE);//Maybe for later developments
 
         playerRepository.save(player);

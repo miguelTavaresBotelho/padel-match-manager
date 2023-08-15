@@ -4,8 +4,10 @@ import com.padelmatchmanager.padelmatchmanager.model.Player;
 import com.padelmatchmanager.padelmatchmanager.service.PlayerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
 
 @Controller
 public class RegistrationController {
@@ -22,12 +24,8 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String registerPlayer(@RequestParam String username, @RequestParam String password) {
-        Player newPlayer = new Player();
-        newPlayer.setUsername(username);
-        newPlayer.setPassword(password);
-
-        playerService.savePlayer(newPlayer);
+    public String registerPlayer(@ModelAttribute("player") @Valid Player player) {
+        playerService.savePlayer(player);
 
         return "redirect:/login";
     }
