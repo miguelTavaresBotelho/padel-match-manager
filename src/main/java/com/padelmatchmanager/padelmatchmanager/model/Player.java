@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,13 +18,14 @@ public class Player implements UserDetails {
     private String username;
     private String password;
     private String email;
-
     private Boolean enabled;
+
+    private int mobileNumber;
+
+    private LocalDate creationDate;
 
     @ManyToMany(mappedBy = "players")
     private List<Challenge> challenges;
-
-//contructor
 
     public Long getId() {
         return id;
@@ -89,4 +91,21 @@ public class Player implements UserDetails {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
+
+    public int getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(int mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
 }
