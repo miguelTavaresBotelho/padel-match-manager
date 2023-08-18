@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function initializePlayerSuggestions(playerSearchInputId, selectedPlayersContainerId) {
     // Array to store selected players
     const selectedPlayers = [];
     const selectedPlayerIds = new Set();
@@ -28,27 +28,6 @@ $(document).ready(function () {
             $('#playerSuggestions').css('display', 'none');
         }
     }
-
-    // Function to select a player from the suggestions and add them to the list of selected players
-    $(document).on('click', '#playerSuggestions li', function () {
-        const selectedPlayer = $(this).data('player');
-
-        if (selectedPlayers.length < 3) {
-            selectedPlayers.push(selectedPlayer);
-            selectedPlayerIds.add(selectedPlayer.id);
-            $('#selectedPlayers').append('<li>' + selectedPlayer.username + '</li>');
-            $('#playerSearch').val('');
-            $('#playerSuggestions').css('display', 'none'); // Hide the suggestions list
-
-            updatePlayerIdsInput();
-        }
-    });
-
-    // Function to handle player input changes in the playerSearch input field
-    $('#playerSearch').on('input', function () {
-        const input = $(this).val();
-        fetchPlayerSuggestions(input);
-    });
 
     // Function to update the playerIds hidden input before form submission
     function updatePlayerIdsInput() {
@@ -92,6 +71,38 @@ $(document).ready(function () {
         });
     });
 
+    // Return the relevant functions and data
+    return {
+        fetchPlayerSuggestions,
+        selectedPlayers,
+        selectedPlayerIds,
+        updatePlayerIdsInput
+    };
+}
 
+$(document).ready(function () {
+    // Initialize player suggestions and selection functionality for create challenge page
+    const challengePlayerSuggestionsModule = initializePlayerSuggestions('playerSearch', 'selectedPlayers');
+
+    // Attach player input event handler for create challenge page
+    $('#playerSearch').on('input', function () {
+        const input = $(this).val();
+        challengePlayerSuggestionsModule.fetchPlayerSuggestions(input);
+    });
+
+    // Function to select a player from the suggestions and add them to the list of selected players
+    $(document).on('click', '#playerSuggestions li', function () {
+        const selectedPlayer = $(this).data('player');
+
+        if (challengePlayerSuggestionsModule.selectedPlayers.length < 3) {
+            challengePlayerSuggestionsModule.selectedPlayers.push(selectedPlayer);
+            challengePlayerSuggestionsModule.selectedPlayerIds.add(selectedPlayer.id);
+            $('#selectedPlayers').append('<li>' + selectedPlayer.username + '</li>');
+            $('#playerSearch').val('');
+            $('#playerSuggestions').css('display', 'none');
+
+            challengePlayerSuggestionsModule.updatePlayerIdsInput();
+        }
+    });
 
 });

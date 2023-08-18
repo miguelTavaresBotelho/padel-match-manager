@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Results</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+<body>
+<header>
+</header>
+
+<main>
+    <h1>My Results</h1>
+
+    <div class="results">
+        <h2>Game Results</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Players</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="result : ${gameResults}">
+                <td th:text="${result.matchDate}"></td>
+                <td>
+                    <ul>
+                        <li th:each="player : ${result.players}" th:text="${player.username}"></li>
+                    </ul>
+                </td>
+                <td th:text="${result.setScore}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="add-result-form">
+        <h2>Add Game Result</h2>
+
+        <form th:action="@{/createGameResult}" method="post" th:object="${newGameResult}">
+            <!-- <input type="hidden" name="playerIds" th:value="${currentPlayer.id}" /> -->
+
+
+            <div>
+                <ul id="selectedPlayers"></ul>
+
+                <label for="playerSearch">Search Player</label>
+                <input type="text" id="playerSearch" name="playerSearch">
+
+                <ul id="playerSuggestions" style="display: none;"></ul>
+            </div>
+
+            <div>
+                <label for="matchDate">Match Date</label>
+                <input type="date" id="matchDate" name="matchDate" required="required" />
+            </div>
+
+            <div>
+                <label for="setScore">Set Score</label>
+                <input type="text" id="setScore" name="setScore" required="required" />
+            </div>
+
+            <div>
+                <label for="gameScore">Game Score</label>
+                <input type="text" id="gameScore" name="gameScore" />
+            </div>
+
+            <button type="submit">Add Result</button>
+        </form>
+
+    </div>
+</main>
+
+<script src="/js/main.js"></script>
+</body>
+
+
+<script>
+    $(document).ready(function () {
+        $('#playerSearch').on('input', function () {
+            const input = $(this).val();
+            //playerSuggestionsModule.fetchPlayerSuggestions(input);
+        });
+    });
+</script>
+
+
+</html>
